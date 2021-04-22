@@ -3,6 +3,13 @@ module.exports = {
   env: {
     node: true,
   },
+	settings: {
+		'import/resolver': {
+			'typescript': {
+				'alwaysTryTypes': true,
+			},
+		},
+	},
   extends: [
     'plugin:vue/vue3-essential',
     '@vue/typescript/recommended',
