@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`c-button should match snapshot 1`] = `<button class="c-button">Mock button!</button>`;

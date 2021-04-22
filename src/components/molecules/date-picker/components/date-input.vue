@@ -1,0 +1,77 @@
+<template>
+  <div
+    v-bind="$attrs"
+    class="date-input"
+    @click="ev => $emit('click', ev)">
+
+    <c-input
+      :placeholder="placeholder"
+      :value="formattedValue[0]" />
+
+    <button
+      class="date-input__clear-btn"
+      v-if="showClearButton"
+      @click.stop="onReset">&Cross;
+    </button>
+  </div>
+</template>
+<script lang="ts">
+import { computed, defineComponent, PropType } from 'vue';
+import { Dayjs }                               from 'dayjs';
+import CInput                                  from '@/components/atoms/input.vue';
+
+export default defineComponent({
+  name: 'DateInput',
+  components: {
+    CInput,
+  },
+  emits: [ 'update:modelValue', 'click' ],
+  props: {
+    placeholder: {
+      type: String,
+    },
+    format: {
+      type: String,
+      default: 'DD-MM-YYYY',
+    },
+    label: {
+      type: String,
+    },
+    modelValue: {
+      type: Array as PropType<Dayjs[]>,
+      required: true,
+    },
+  },
+  setup(props, context) {
+    const showClearButton = computed(() => props.modelValue.some(date => !!date));
+    const formattedValue = computed(() => props.modelValue.map(date => date?.format(props.format)));
+    const onReset = () => context.emit('update:modelValue', []);
+
+    return {
+      formattedValue,
+      showClearButton,
+      onReset,
+    };
+  },
+});
+</script>
+
+<style scoped lang="scss">
+.date-input {
+  border-radius: .3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--color-primary);
+
+  &__clear-btn {
+    position: absolute;
+    right: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+}
+</style>
