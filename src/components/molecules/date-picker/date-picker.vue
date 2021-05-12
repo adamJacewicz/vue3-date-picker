@@ -1,17 +1,4 @@
-<template>
-	<popup class="date-picker">
-		<range-input
-			:placeholder="placeholder"
-			:label="label"
-			v-model="selectedRange"
-		/>
-		<template #main>
-			<date-picker-panel />
-		</template>
-	</popup>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { computed, defineComponent, PropType } from 'vue';
 import { DatePickerType }                      from '@/types';
 import RangeInput                              from '@/components/molecules/date-picker/components/range-input.vue';
@@ -61,11 +48,21 @@ export default defineComponent({
 			get: () => store.selectedRange.value,
 			set: store.setRange,
 		});
-
 		provideStore(store);
-		return {
-			selectedRange,
+		const { placeholder, label } = props;
+		const slots = {
+			main: () => <date-picker-panel />,
 		};
+		return () => (
+			<popup v-slots={slots}
+						 class="date-picker">
+				<range-input
+					placeholder={placeholder}
+					label={label}
+					v-model={selectedRange.value}
+				/>
+			</popup>
+		);
 	},
 });
 </script>

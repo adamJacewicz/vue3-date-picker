@@ -1,15 +1,5 @@
-<template>
-	<label class="c-input__label">
-		{{ label }}
-		<input v-bind="$attrs"
-					 v-model="localValue"
-					 class="c-input" />
-	</label>
-</template>
-
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-
+<script lang="tsx">
+import {  defineComponent } from 'vue';
 export default defineComponent({
 	name: 'C-Input',
 	emits: [ 'update:modelValue' ],
@@ -23,15 +13,14 @@ export default defineComponent({
 			default: '',
 		},
 	},
-	setup(props, context) {
-		const localValue = computed({
-			get: () => props.value,
-			set: value => context.emit('update:modelValue', value),
-		});
-
-		return {
-			localValue,
-		};
+	setup(props, { attrs }) {
+		return () => (
+			<label class="c-input__label">
+				{props.label}
+				<input v-model={props.value}
+							 class="c-input" {...attrs} />
+			</label>
+		);
 	},
 });
 </script>

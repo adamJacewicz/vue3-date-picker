@@ -1,42 +1,4 @@
-<template>
-	<div class="calendar">
-		<div class="calendar__switcher">
-			<c-button
-				:disabled="isButtonDisabled('left')"
-				@click="prevMonth">
-				<icon-arrow-left />
-			</c-button>
-			<span>{{ monthTitle }}</span>
-			<c-button
-				:disabled="isButtonDisabled('right')"
-				@click="nextMonth">
-				<icon-arrow-right />
-			</c-button>
-		</div>
-
-		<ul class="calendar__week">
-			<li v-for="day in weekDays"
-					class="calendar__week-day"
-					:key="day">
-				{{ day }}
-			</li>
-		</ul>
-		<ul class="calendar__month">
-			<li
-				v-for="(date, i) in daysInMonth"
-				:key="i"
-				class="calendar__month-day"
-				:class="dayClass(date)"
-				@mouseenter="onMouseEnter(date)"
-				@click="selectDate(date)"
-			>
-				{{ date.date() }}
-			</li>
-		</ul>
-	</div>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { defineComponent, PropType } from 'vue';
 import { Dayjs }                     from 'dayjs';
 import CButton                       from '@/components/atoms/button.vue';
@@ -72,17 +34,44 @@ export default defineComponent({
 			dayClass,
 			selectDate,
 		} = useCalendar(props, context);
-		return {
-			weekDays,
-			monthTitle,
-			daysInMonth,
-			isButtonDisabled,
-			onMouseEnter,
-			nextMonth,
-			prevMonth,
-			dayClass,
-			selectDate,
-		};
+		return () => (
+			<div class="calendar">
+				<div class="calendar__switcher">
+					<c-button disabled={isButtonDisabled('left')}
+										onClick={prevMonth}>
+						<icon-arrow-left />
+					</c-button>
+					<span>{monthTitle.value}</span>
+					<c-button
+						disabled={isButtonDisabled('right')}
+						onClick={nextMonth}>
+						<icon-arrow-right />
+					</c-button>
+				</div>
+
+				<ul class="calendar__week">
+					{weekDays.map((day) => (
+						<li class="calendar__week-day"
+								key={day}>
+							{day}
+						</li>
+					))}
+
+				</ul>
+				<ul class="calendar__month">
+					{daysInMonth.value.map((date, i) => (
+						<li
+							key={i}
+							class={[ dayClass(date), 'calendar__month-day' ]}
+							onMouseenter={() => onMouseEnter(date)}
+							onClick={() => selectDate(date)}
+						>
+							{date.date()}
+						</li>
+					))}
+
+				</ul>
+			</div>);
 	},
 });
 </script>

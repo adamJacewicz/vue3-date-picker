@@ -1,21 +1,4 @@
-<template>
-	<div
-		v-bind="$attrs"
-		class="date-input"
-		@click="ev => $emit('click', ev)">
-
-		<c-input
-			:placeholder="placeholder"
-			:value="formattedValue[0]" />
-
-		<button
-			class="date-input__clear-btn"
-			v-if="showClearButton"
-			@click.stop="onReset">&Cross;
-		</button>
-	</div>
-</template>
-<script lang="ts">
+<script lang="tsx">
 import { computed, defineComponent, PropType } from 'vue';
 import { Dayjs }                               from 'dayjs';
 import CInput                                  from '@/components/atoms/input.vue';
@@ -42,16 +25,27 @@ export default defineComponent({
 			required: true,
 		},
 	},
-	setup(props, context) {
+	setup(props, { attrs, emit }) {
 		const showClearButton = computed(() => props.modelValue.some(date => !!date));
 		const formattedValue = computed(() => props.modelValue.map(date => date?.format(props.format)));
-		const onReset = () => context.emit('update:modelValue', []);
+		const onReset = () => emit('update:modelValue', []);
+		return () => (
+			<div
+				v-bind={attrs}
+				class="date-input"
+				onClick={ev => emit('click', ev)}>
 
-		return {
-			formattedValue,
-			showClearButton,
-			onReset,
-		};
+				<c-input
+					placeholder={props.placeholder}
+					value={formattedValue.value[ 0 ]} />
+
+				<button
+					class="date-input__clear-btn"
+					v-if={showClearButton.value}
+					onClick={onReset}>&Cross;
+				</button>
+			</div>
+		);
 	},
 });
 </script>

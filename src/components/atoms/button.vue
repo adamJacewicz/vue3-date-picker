@@ -1,17 +1,16 @@
-<template>
-	<button v-bind="$attrs"
-					class="c-button">
-		<slot />
-	</button>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
 	name: 'CButton',
-	setup() {
-		return {};
+	setup(props, {slots, attrs}) {
+		const slot = slots.default!()
+		return () => (
+			<button {...attrs}
+							class="c-button">
+				{slot}
+			</button>
+		)
 	},
 });
 </script>
