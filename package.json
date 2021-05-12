@@ -15,6 +15,7 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@architect/sandbox": "^3.4.3",
     "@types/jest": "^26.0.20",
     "@types/vue": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
