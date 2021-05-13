@@ -6,14 +6,18 @@ export default defineComponent({
 	name: 'Popup',
 	setup(props, { slots }) {
 		const { isPopupVisible, hidePopup, togglePopup } = usePopup();
+		const onClick = (e: MouseEvent) => {
+			e.stopPropagation()
+			togglePopup()
+		}
 		return () => (
 			<div class="popup">
 				<div class="popup__trigger"
-						 onClick_stop={togglePopup}>
+						 onClick={onClick}>
 					{slots.default && slots.default()}
 				</div>
 
-				{isPopupVisible && (
+				{isPopupVisible.value && (
 					<div
 						v-click-outside={hidePopup}
 						class="popup__content">
