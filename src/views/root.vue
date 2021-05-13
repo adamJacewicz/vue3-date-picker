@@ -1,13 +1,4 @@
-<template>
-	<main>
-		<date-picker
-			:disabled="isDisabled"
-			v-model="dates"
-		/>
-	</main>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { defineComponent, ref } from 'vue';
 import DatePicker               from '@/components/molecules/date-picker/date-picker.vue';
 import dayjs                    from 'dayjs';
@@ -37,11 +28,14 @@ export default defineComponent({
 			new Date('2021-05-14'),
 			new Date('2021-05-11'),
 		]);
-
-		return {
-			isDisabled,
-			dates,
-		};
+		return () => (
+			<main>
+				<date-picker
+					disabled={isDisabled}
+					v-model={dates.value}
+				/>
+			</main>
+		);
 	},
 });
 </script>

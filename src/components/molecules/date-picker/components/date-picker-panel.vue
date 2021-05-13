@@ -11,7 +11,6 @@ export default defineComponent({
 	props: {},
 	setup() {
 		const currentMonths = ref([ dayjs(), dayjs().add(1, 'months') ]);
-
 		const disabledBtn = computed(() => {
 			const [ left, right ] = currentMonths.value;
 			const diff = right.month() - left.month() - 1;
