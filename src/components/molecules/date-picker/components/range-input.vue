@@ -1,37 +1,4 @@
-<template>
-	<div
-		v-bind="$attrs"
-		@click="ev => $emit('click', ev)"
-		class="range-input"
-	>
-		<icon-calendar>
-			{{ new Date().getDate() }}
-		</icon-calendar>
-
-		<c-input
-			:disabled="disabled"
-			:placeholder="placeholder[0]"
-			:value="formattedValue[0]"
-		/>
-
-		<span class="range-input__separator">&rarr;</span>
-
-		<c-input
-			:disabled="disabled"
-			:placeholder="placeholder[1]"
-			:value="formattedValue[1]"
-		/>
-
-		<c-button
-			aria-label="clear-button"
-			class="range-input__clear-btn"
-			@click.stop="onReset">
-			<icon-clear />
-		</c-button>
-	</div>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { computed, defineComponent, PropType } from 'vue';
 import CInput                                  from '@/components/atoms/input.vue';
 import CButton                                 from '@/components/atoms/button.vue';
@@ -65,15 +32,42 @@ export default defineComponent({
 		},
 	},
 	setup(props, context) {
-		const isClearBtnVisible = computed(() => props.modelValue?.some((date) => !!date));
 		const formattedValue = computed(() => props.modelValue?.map((date) => date?.format(props.format)));
 		const onReset = () => context.emit('update:modelValue', []);
+		const { attrs, emit } = context;
+		const { disabled, placeholder } = props;
+		return () => (
+			<div
+				{...attrs}
+				onClick={ev => emit('click', ev)}
+				class="range-input"
+			>
+				<icon-calendar>
+					{new Date().getDate()}
+				</icon-calendar>
 
-		return {
-			formattedValue,
-			isClearBtnVisible,
-			onReset,
-		};
+				<c-input
+					disabled={disabled}
+					placeholder={placeholder![ 0 ]}
+					value={formattedValue.value![ 0 ]}
+				/>
+
+				<span class="range-input__separator">&rarr;</span>
+
+				<c-input
+					disabled={disabled}
+					placeholder={placeholder![ 1 ]}
+					value={formattedValue.value![ 1 ]}
+				/>
+
+				<c-button
+					aria-label="clear-button"
+					class="range-input__clear-btn"
+					onClick_stop={onReset}>
+					<icon-clear />
+				</c-button>
+			</div>
+		);
 	},
 });
 </script>

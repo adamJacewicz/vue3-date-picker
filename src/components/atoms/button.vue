@@ -4,11 +4,11 @@ import { defineComponent } from 'vue';
 export default defineComponent({
 	name: 'CButton',
 	setup(props, {slots, attrs}) {
-		const slot = slots.default!()
+		const defaultSlot = slots.default
 		return () => (
 			<button {...attrs}
 							class="c-button">
-				{slot}
+				{defaultSlot && defaultSlot()}
 			</button>
 		)
 	},

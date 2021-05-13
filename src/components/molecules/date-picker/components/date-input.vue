@@ -31,7 +31,7 @@ export default defineComponent({
 		const onReset = () => emit('update:modelValue', []);
 		return () => (
 			<div
-				v-bind={attrs}
+				{...attrs}
 				class="date-input"
 				onClick={ev => emit('click', ev)}>
 
@@ -42,7 +42,7 @@ export default defineComponent({
 				<button
 					class="date-input__clear-btn"
 					v-if={showClearButton.value}
-					onClick={onReset}>&Cross;
+					onClick_stop={onReset}>&Cross;
 				</button>
 			</div>
 		);

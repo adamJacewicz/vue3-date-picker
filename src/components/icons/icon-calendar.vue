@@ -4,7 +4,7 @@ import {defineComponent} from 'vue';
 export default defineComponent({
 	name: 'IconCalendar',
 	setup(props, {slots}) {
-		const slot = slots.default!()
+		const defaultSlot = slots.default
 		return () => (
 			<svg
 				class="icon"
@@ -37,7 +37,7 @@ export default defineComponent({
 					stroke="none"
 					font-size="256px"
 				>
-					{slot}
+					{defaultSlot && defaultSlot()}
 				</text>
 			</svg>
 		)

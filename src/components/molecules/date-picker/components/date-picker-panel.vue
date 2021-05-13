@@ -1,19 +1,4 @@
-<template>
-	<div class="date-picker-panel">
-		<calendar
-			class="date-picker-panel__calendar left"
-			:disabled-btn="disabledBtn"
-			v-model="currentMonths[0]"
-		/>
-		<calendar
-			class="date-picker-panel__calendar right"
-			:disabled-btn="disabledBtn"
-			v-model="currentMonths[1]"
-		/>
-	</div>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
 import { computed, defineComponent, ref } from 'vue';
 import Calendar                           from '@/components/molecules/date-picker/components/calendar.vue';
 import dayjs                              from 'dayjs';
@@ -33,10 +18,20 @@ export default defineComponent({
 			return !diff;
 		});
 
-		return {
-			disabledBtn,
-			currentMonths,
-		};
+		return () => (
+			<div class="date-picker-panel">
+				<calendar
+					class="date-picker-panel__calendar left"
+					disabled-btn={disabledBtn.value}
+					v-model={currentMonths.value[0]}
+				/>
+				<calendar
+					class="date-picker-panel__calendar right"
+					disabled-btn={disabledBtn.value}
+					v-model={currentMonths.value[1]}
+				/>
+			</div>
+		);
 	},
 });
 
