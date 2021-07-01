@@ -33,7 +33,10 @@ export default defineComponent({
 	},
 	setup(props, context) {
 		const formattedValue = computed(() => props.modelValue?.map((date) => date?.format(props.format)));
-		const onReset = () => context.emit('update:modelValue', []);
+		const onReset = (e: MouseEvent) => {
+			e.stopPropagation();
+			context.emit('update:modelValue', [])
+		};
 		const { attrs, emit } = context;
 		const { disabled, placeholder } = props;
 		return () => (
@@ -63,7 +66,7 @@ export default defineComponent({
 				<c-button
 					aria-label="clear-button"
 					class="range-input__clear-btn"
-					onClick_stop={onReset}>
+					onClick={onReset}>
 					<icon-clear />
 				</c-button>
 			</div>
